@@ -1,0 +1,453 @@
+<script type="text/javascript">
+
+	RED.nodes.registerType('edesign.runtime.web-socket', {
+		category: 'config',
+		defaults: {
+			url: {
+				value: '',
+				required: true,
+				label: 'Server',
+				validate: RED.validators.regex(/^((?!\/debug\/ws).)*$/)
+			}
+		},
+		inputs: 0,
+		outputs: 0,
+		label: function () {
+			return this.url;
+		},
+
+		oneditprepare: function () {
+
+		},
+		oneditsave: function () {
+		}
+	});
+
+	/**
+	 * Common
+	 */
+	function startNode(node, customMsg) {
+		$.ajax({
+			url: "inject/" + node.id,
+			type: "POST",
+			data: JSON.stringify(customMsg || {}),
+			contentType: "application/json; charset=utf-8",
+			success: function (resp) {
+				RED.notify(node._("inject.success", { label: label }), { type: "success", id: "inject", timeout: 2000 });
+			},
+			error: function (jqXHR, textStatus, errorThrown) {
+				if (jqXHR.status == 404) {
+					RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.not-deployed") }), "error");
+				} else if (jqXHR.status == 500) {
+					RED.notify(node._("common.notification.error", { message: node._("inject.errors.failed") }), "error");
+				} else if (jqXHR.status == 0) {
+					RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.no-response") }), "error");
+				} else {
+					RED.notify(node._("common.notification.error", { message: node._("common.notification.errors.unexpected", { status: jqXHR.status, message: textStatus }) }), "error");
+				}
+			}
+		});
+	}
+
+	/**
+	 * Alarms
+	*/
+	RED.nodes.registerType('edesign.runtime.alarm.list', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "List",
+		label: "WDX - Alarm - List",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.alarm.list-active', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "List Active",
+		label: "WDX - Alarm - List Active",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.alarm.list-history', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			alarmUuid: {},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "List History",
+		label: "WDX - Alarm - List History",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.alarm.confirm', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Confirm",
+		label: "WDX - Alarm - Confirm",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.alarm.confirm-all', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Confirm All",
+		label: "WDX - Alarm - Confirm All",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.alarm.changes', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			subscribe: {
+				type: "boolean",
+			},
+		},
+		inputs: 1,
+		outputs: 3,
+		outputLabels: ["Succeded", "Errored", "Completed",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Monitor",
+		label: "WDX - Alarm - Monitor",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.alarm.detail', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			alarmId: {
+				value: '',
+			}
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Detail",
+		label: "WDX - Alarm - Detail",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.alarm.delete', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			alarmId: {
+				value: '',
+			}
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Delete",
+		label: "WDX - Alarm - Delete",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('edesign.runtime.alarm.save', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "edesign.runtime.web-socket",
+				required: true
+			},
+			alarm: {
+			}
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Save",
+		label: "WDX - Alarm - Save",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.web-socket">
+
+	<div class="form-row">
+		<label for="node-config-input-url">
+			<i class="fa fa-bookmark"></i>
+			<span>Url</span>
+		</label>
+		<input id="node-config-input-url" type="text" placeholder="ws://localhost:8081">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.alarm.list">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.alarm.list-active">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.alarm.list-history">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+	</div>
+
+
+	<div class="form-row">
+		<label for="node-input-alarm-uuid">Alarm UUID</label>
+		<input type="text" id="node-input-alarm-uuid" placeholder="Alarm UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.alarm.confirm">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+
+	</div>
+
+
+	<div class="form-row">
+		<label for="node-input-alarm-uuid">Alarm UUID</label>
+		<input type="text" id="node-input-alarm-uuid" placeholder="Alarm UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.alarm.confirm-all">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.alarm.changes">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+
+	</div>
+	
+	<div class="form-row">
+		<label for="node-input-subscribe"><i class="fa fa-tag"></i>Subscribe</label>
+		<input type="checkbox" id="node-input-subscribe" placeholder="">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.alarm.detail">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+
+	</div>
+
+
+	<div class="form-row">
+		<label for="node-input-alarm-uuid">Alarm UUID</label>
+		<input type="text" id="node-input-alarm-uuid" placeholder="Alarm UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.alarm.delete">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+
+	</div>
+
+
+	<div class="form-row">
+		<label for="node-input-alarm-uuid">Alarm UUID</label>
+		<input type="text" id="node-input-alarm-uuid" placeholder="Alarm UUID">
+	</div>
+
+</script>
+
+<script type="text/html" data-template-name="edesign.runtime.alarm.save">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+
+	</div>
+
+
+	<div class="form-row">
+		<label for="node-input-alarm">Alarm</label>
+		<input type="text" id="node-input-alarm" placeholder="Alarm JSON Model">
+	</div>
+
+</script>
