@@ -1,4 +1,4 @@
-# WDX - Node Red - Palette
+# Wago - Node Red - WDX - Alarm
 
 Node Red plugin WDX Palette with nodes implementing WDX WS Interface communication within Node Red application.
 
@@ -41,13 +41,13 @@ cd ~/.node-red/data # Directory would differ based on your Node-RED installation
 Install the library, using npm or yarn:
 
 ```bash
-npm install @wago/node-red-wdx-palette
+npm install @wago/node-red-wdx-alarm
 ```
 
 or
 
 ```bash
-yarn add @wago/node-red-wdx-palette
+yarn add @wago/node-red-wdx-alarm
 ```
 
 
