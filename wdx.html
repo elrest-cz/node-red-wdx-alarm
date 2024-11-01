@@ -1,31 +1,5 @@
 <script type="text/javascript">
 
-	RED.nodes.registerType('edesign.runtime.web-socket', {
-		category: 'config',
-		defaults: {
-			url: {
-				value: '',
-				required: true,
-				label: 'Server',
-				validate: RED.validators.regex(/^((?!\/debug\/ws).)*$/)
-			}
-		},
-		inputs: 0,
-		outputs: 0,
-		label: function () {
-			return this.url;
-		},
-
-		oneditprepare: function () {
-
-		},
-		oneditsave: function () {
-		}
-	});
-
-	/**
-	 * Common
-	 */
 	function startNode(node, customMsg) {
 		$.ajax({
 			url: "inject/" + node.id,
@@ -49,16 +23,13 @@
 		});
 	}
 
-	/**
-	 * Alarms
-	*/
-	RED.nodes.registerType('edesign.runtime.alarm.list', {
+	RED.nodes.registerType('wago.wdx.alarm.list', {
 		category: 'WDX Alarm',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 		},
@@ -75,13 +46,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.alarm.list-active', {
+	RED.nodes.registerType('wago.wdx.alarm.list-active', {
 		category: 'WDX Alarm',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 		},
@@ -98,13 +69,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.alarm.list-history', {
+	RED.nodes.registerType('wago.wdx.alarm.list-history', {
 		category: 'WDX Alarm',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			alarmUuid: {},
@@ -122,13 +93,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.alarm.confirm', {
+	RED.nodes.registerType('wago.wdx.alarm.confirm', {
 		category: 'WDX Alarm',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 		},
@@ -145,13 +116,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.alarm.confirm-all', {
+	RED.nodes.registerType('wago.wdx.alarm.confirm-all', {
 		category: 'WDX Alarm',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 		},
@@ -168,13 +139,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.alarm.changes', {
+	RED.nodes.registerType('wago.wdx.alarm.monitor', {
 		category: 'WDX Alarm',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			subscribe: {
@@ -194,13 +165,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.alarm.detail', {
+	RED.nodes.registerType('wago.wdx.alarm.detail', {
 		category: 'WDX Alarm',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			alarmId: {
@@ -220,13 +191,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.alarm.delete', {
+	RED.nodes.registerType('wago.wdx.alarm.delete', {
 		category: 'WDX Alarm',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			alarmId: {
@@ -246,13 +217,13 @@
 		},
 	});
 
-	RED.nodes.registerType('edesign.runtime.alarm.save', {
+	RED.nodes.registerType('wago.wdx.alarm.save', {
 		category: 'WDX Alarm',
 		color: '#FFFFFF',
 		defaults: {
 			name: { value: "" },
 			client: {
-				type: "edesign.runtime.web-socket",
+				type: "wago.wdx.web-socket",
 				required: true
 			},
 			alarm: {
@@ -273,19 +244,7 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.web-socket">
-
-	<div class="form-row">
-		<label for="node-config-input-url">
-			<i class="fa fa-bookmark"></i>
-			<span>Url</span>
-		</label>
-		<input id="node-config-input-url" type="text" placeholder="ws://localhost:8081">
-	</div>
-
-</script>
-
-<script type="text/html" data-template-name="edesign.runtime.alarm.list">
+<script type="text/html" data-template-name="wago.wdx.alarm.list">
 
 	<div class="form-row">
 
@@ -299,7 +258,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.alarm.list-active">
+<script type="text/html" data-help-name="wago.wdx.alarm.list">
+	<h2>WAGO - WDX - Alarm - List</h2>
+	<p>Retrieves alarm list from WDX</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.list-active">
 
 	<div class="form-row">
 
@@ -313,7 +278,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.alarm.list-history">
+<script type="text/html" data-help-name="wago.wdx.alarm.list-active">
+	<h2>WAGO - WDX - Alarm - List Active</h2>
+	<p>Retrieves list of active alarm from WDX</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.list-history">
 
 	<div class="form-row">
 
@@ -333,7 +304,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.alarm.confirm">
+<script type="text/html" data-help-name="wago.wdx.alarm.list-history">
+	<h2>WAGO - WDX - Alarm - List History</h2>
+	<p>Retrieves list of alarm history from WDX</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.confirm">
 
 	<div class="form-row">
 
@@ -354,7 +331,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.alarm.confirm-all">
+<script type="text/html" data-help-name="wago.wdx.alarm.confirm">
+	<h2>WAGO - WDX - Alarm - Confirm</h2>
+	<p>Confirm alarm aknowledge in WDX</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.confirm-all">
 
 	<div class="form-row">
 
@@ -369,7 +352,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.alarm.changes">
+<script type="text/html" data-help-name="wago.wdx.alarm.confirm-all">
+	<h2>WAGO - WDX - Alarm - Confirm</h2>
+	<p>Confirm alarm aknowledge in WDX</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.monitor">
 
 	<div class="form-row">
 
@@ -389,7 +378,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.alarm.detail">
+<script type="text/html" data-help-name="wago.wdx.alarm.monitor">
+	<h2>WAGO - WDX - Alarm - Monitor</h2>
+	<p>ubscribe/Unsubscribe to WDX Alarm monitor</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.detail">
 
 	<div class="form-row">
 
@@ -410,7 +405,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.alarm.delete">
+<script type="text/html" data-help-name="wago.wdx.alarm.detail">
+	<h2>WAGO - WDX - Alarm - Monitor</h2>
+	<p>Subscribe/Unsubscribe to WDX Alarm monitor</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.delete">
 
 	<div class="form-row">
 
@@ -431,7 +432,13 @@
 
 </script>
 
-<script type="text/html" data-template-name="edesign.runtime.alarm.save">
+<script type="text/html" data-help-name="wago.wdx.alarm.delete">
+	<h2>WAGO - WDX - Alarm - Delete</h2>
+	<p>Deletes alarm in WDX</p>
+	<h2>Parameters</h2>
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.save">
 
 	<div class="form-row">
 
@@ -450,4 +457,10 @@
 		<input type="text" id="node-input-alarm" placeholder="Alarm JSON Model">
 	</div>
 
+</script>
+
+<script type="text/html" data-help-name="wago.wdx.alarm.save">
+	<h2>WAGO - WDX - Alarm - Save</h2>
+	<p>Save alarm to WDX</p>
+	<h2>Parameters</h2>
 </script>

@@ -1,4 +1,4 @@
-# WDX - Node Red - Palette
+# Wago - Node Red - WDX - Alarm
 
 Node Red plugin WDX Palette with nodes implementing WDX WS Interface communication within Node Red application.
 
@@ -41,13 +41,13 @@ cd ~/.node-red/data # Directory would differ based on your Node-RED installation
 Install the library, using npm or yarn:
 
 ```bash
-npm install @wago/node-red-wdx-palette
+npm install @wago/node-red-wdx-alarm
 ```
 
 or
 
 ```bash
-yarn add @wago/node-red-wdx-palette
+yarn add @wago/node-red-wdx-alarm
 ```
 
 
@@ -69,6 +69,7 @@ For more examples see [example project](https://github.com/elrest-cz/wdx-node-re
 
 This library is licensed under the [MIT License](https://en.wikipedia.org/wiki/MIT_License). See the [LICENSE.md](https://github.com/elrest-cz/wdx-ws-client-js/blob/master/LICENSE.md) file for more details.
 
-© 2024 
+© 2024 Elrest Automations Systeme GMBH
+
 
 This `README.md` provides a clear introduction to the TypeScript model schema library, with examples of how to use it, and includes the required copyright and licensing information under the MIT License.
