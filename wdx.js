@@ -50,11 +50,8 @@ module.exports = function (RED) {
 		}
 	};
 
-	const WS_RECONNECT_TIMEOUT = 1000;
-
 	//wago.wdx.alarm.list
 	function EDesignRuntimeAlarmList(config) {
-
 
 		RED.nodes.createNode(this, config);
 
@@ -612,7 +609,7 @@ module.exports = function (RED) {
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
-			const alarm = msg.payload ?? config['alarm'] ?? undefined;
+			const alarm = msg.alarm ?? config['alarm'] ?? undefined;
 
 			console.error("EDesignRuntimeAlarmSave.input", { msg: msg, config: config });
 
