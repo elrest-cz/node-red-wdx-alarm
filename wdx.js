@@ -55,30 +55,36 @@ module.exports = function (RED) {
 
 		RED.nodes.createNode(this, config);
 
-		this.status(NODE_STATUS.CONNECTING);
-
 		const wsClient = RED.nodes.getNode(config.client);
 
-		wsClient.on('opened', (event) => {
-			this.status(Object.assign(NODE_STATUS.OPEN, {
-				event: "connect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
 
-		wsClient.on('erro', (event) => {
-			this.status(Object.assign(NODE_STATUS.ERROR, {
-				event: "error",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
 
-		wsClient.on('closed', (event) => {
-			this.status(Object.assign(NODE_STATUS.CLOSED, {
-				event: "disconnect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
@@ -131,26 +137,34 @@ module.exports = function (RED) {
 
 		const wsClient = RED.nodes.getNode(config.client);
 
-		wsClient.on('opened', (event) => {
-			this.status(Object.assign(NODE_STATUS.OPEN, {
-				event: "connect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
 
-		wsClient.on('erro', (event) => {
-			this.status(Object.assign(NODE_STATUS.ERROR, {
-				event: "error",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
 
-		wsClient.on('closed', (event) => {
-			this.status(Object.assign(NODE_STATUS.CLOSED, {
-				event: "disconnect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
@@ -198,30 +212,36 @@ module.exports = function (RED) {
 	function EDesignRuntimeAlarmListHistory(config) {
 		RED.nodes.createNode(this, config);
 
-		this.status(NODE_STATUS.CONNECTING);
-
 		const wsClient = RED.nodes.getNode(config.client);
 
-		wsClient.on('opened', (event) => {
-			this.status(Object.assign(NODE_STATUS.OPEN, {
-				event: "connect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
 
-		wsClient.on('erro', (event) => {
-			this.status(Object.assign(NODE_STATUS.ERROR, {
-				event: "error",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
 
-		wsClient.on('closed', (event) => {
-			this.status(Object.assign(NODE_STATUS.CLOSED, {
-				event: "disconnect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
@@ -270,30 +290,35 @@ module.exports = function (RED) {
 	function EDesignRuntimeAlarmConfirm(config) {
 		RED.nodes.createNode(this, config);
 
-		this.status(NODE_STATUS.CONNECTING);
-
 		const wsClient = RED.nodes.getNode(config.client);
 
-		wsClient.on('opened', (event) => {
-			this.status(Object.assign(NODE_STATUS.OPEN, {
-				event: "connect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
 
-		wsClient.on('erro', (event) => {
-			this.status(Object.assign(NODE_STATUS.ERROR, {
-				event: "error",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
 
-		wsClient.on('closed', (event) => {
-			this.status(Object.assign(NODE_STATUS.CLOSED, {
-				event: "disconnect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
@@ -341,30 +366,35 @@ module.exports = function (RED) {
 	function EDesignRuntimeAlarmConfirmAll(config) {
 		RED.nodes.createNode(this, config);
 
-		this.status(NODE_STATUS.CONNECTING);
-
 		const wsClient = RED.nodes.getNode(config.client);
 
-		wsClient.on('opened', (event) => {
-			this.status(Object.assign(NODE_STATUS.OPEN, {
-				event: "connect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
 
-		wsClient.on('erro', (event) => {
-			this.status(Object.assign(NODE_STATUS.ERROR, {
-				event: "error",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
 
-		wsClient.on('closed', (event) => {
-			this.status(Object.assign(NODE_STATUS.CLOSED, {
-				event: "disconnect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
@@ -410,30 +440,36 @@ module.exports = function (RED) {
 	function EDesignRuntimeAlarmChanges(config) {
 		RED.nodes.createNode(this, config);
 
-		this.status(NODE_STATUS.CONNECTING);
-
 		const wsClient = RED.nodes.getNode(config.client);
 
-		wsClient.on('opened', (event) => {
-			this.status(Object.assign(NODE_STATUS.OPEN, {
-				event: "connect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
 
-		wsClient.on('erro', (event) => {
-			this.status(Object.assign(NODE_STATUS.ERROR, {
-				event: "error",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
 
-		wsClient.on('closed', (event) => {
-			this.status(Object.assign(NODE_STATUS.CLOSED, {
-				event: "disconnect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
@@ -507,30 +543,36 @@ module.exports = function (RED) {
 	function EDesignRuntimeAlarmDetail(config) {
 		RED.nodes.createNode(this, config);
 
-		this.status(NODE_STATUS.CONNECTING);
-
 		const wsClient = RED.nodes.getNode(config.client);
 
-		wsClient.on('opened', (event) => {
-			this.status(Object.assign(NODE_STATUS.OPEN, {
-				event: "connect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
 
-		wsClient.on('erro', (event) => {
-			this.status(Object.assign(NODE_STATUS.ERROR, {
-				event: "error",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
 
-		wsClient.on('closed', (event) => {
-			this.status(Object.assign(NODE_STATUS.CLOSED, {
-				event: "disconnect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
@@ -582,30 +624,36 @@ module.exports = function (RED) {
 	function EDesignRuntimeAlarmSave(config) {
 		RED.nodes.createNode(this, config);
 
-		this.status(NODE_STATUS.CONNECTING);
-
 		const wsClient = RED.nodes.getNode(config.client);
 
-		wsClient.on('opened', (event) => {
-			this.status(Object.assign(NODE_STATUS.OPEN, {
-				event: "connect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
 
-		wsClient.on('erro', (event) => {
-			this.status(Object.assign(NODE_STATUS.ERROR, {
-				event: "error",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
 
-		wsClient.on('closed', (event) => {
-			this.status(Object.assign(NODE_STATUS.CLOSED, {
-				event: "disconnect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
@@ -661,30 +709,36 @@ module.exports = function (RED) {
 	function EDesignRuntimeAlarmDelete(config) {
 		RED.nodes.createNode(this, config);
 
-		this.status(NODE_STATUS.CONNECTING);
-
 		const wsClient = RED.nodes.getNode(config.client);
 
-		wsClient.on('opened', (event) => {
-			this.status(Object.assign(NODE_STATUS.OPEN, {
-				event: "connect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
 
-		wsClient.on('erro', (event) => {
-			this.status(Object.assign(NODE_STATUS.ERROR, {
-				event: "error",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
 
-		wsClient.on('closed', (event) => {
-			this.status(Object.assign(NODE_STATUS.CLOSED, {
-				event: "disconnect",
-				_session: { type: "websocket", id: event.id }
-			}));
-		});
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
