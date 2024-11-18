@@ -88,9 +88,13 @@ module.exports = function (RED) {
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
-			console.log("EDesignRuntimeAlarmList.input", msg, config);
+			const offset = msg.offset ?? config['offset'] ?? undefined;
+			const limit = msg.offset ?? config['limit'] ?? undefined;
 
 			const request = new WDXSchema.WDX.Schema.Message.Alarm.ListRequest(
+				undefined,
+				offset,
+				limit,
 			);
 
 			const subscription = wsClient.wsMessages().subscribe(
@@ -167,10 +171,14 @@ module.exports = function (RED) {
 		}
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
+			const offset = msg.offset ?? config['offset'] ?? undefined;
+			const limit = msg.offset ?? config['limit'] ?? undefined;
 
-			console.log("EDesignRuntimeAlarmList.input", msg, config);
-
-			const request = new WDXSchema.WDX.Schema.Message.Alarm.ListRequest(true);
+			const request = new WDXSchema.WDX.Schema.Message.Alarm.ListRequest(
+				true,
+				offset,
+				limit,
+			);
 
 			const subscription = wsClient.wsMessages().subscribe(
 				{
@@ -245,8 +253,14 @@ module.exports = function (RED) {
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
+			const offset = msg.offset ?? config['offset'] ?? undefined;
+			const limit = msg.offset ?? config['limit'] ?? undefined;
+			const alarmUuid = msg.alarmUuid ?? config['alarmUuid'] ?? undefined;
+
 			const request = new WDXSchema.WDX.Schema.Message.Alarm.ListHistoryRequest(
-				msg.alarmId ?? config['alarmId'] ?? "",
+				alarmUuid,
+				offset,
+				limit,
 			);
 
 			const subscription = wsClient.wsMessages().subscribe(
@@ -576,13 +590,13 @@ module.exports = function (RED) {
 
 		this.on('input', (msg, nodeSend, nodeDone) => {
 
-			const alarmId = msg.alarmId ?? config['alarmId'] ?? undefined;
-			if (undefined === alarmId) {
+			const alarmUuid = msg.alarmUuid ?? config['alarmUuid'] ?? undefined;
+			if (undefined === alarmUuid) {
 				return;
 			}
 
 			const request = new WDXSchema.WDX.Schema.Message.Alarm.DetailRequest(
-				alarmId,
+				alarmUuid,
 			);
 
 			const subscription = wsClient.wsMessages().subscribe(
@@ -786,4 +800,250 @@ module.exports = function (RED) {
 		});
 	}
 	RED.nodes.registerType("wago.wdx.alarm.delete", EDesignRuntimeAlarmDelete,);
+
+	//wago.wdx.alarm.get-status
+	function EDesignRuntimeAlarmGetStatus(config) {
+		RED.nodes.createNode(this, config);
+
+		const wsClient = RED.nodes.getNode(config.client);
+
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
+
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
+
+		this.on('input', (msg, nodeSend, nodeDone) => {
+
+			const alarmCode = msg.alarmCode ?? config['alarmCode'] ?? undefined;
+			if (undefined === alarmCode) {
+				return;
+			}
+
+			const request = new WDXSchema.WDX.Schema.Message.Alarm.GetStatusRequest(
+				alarmCode,
+			);
+
+			const subscription = wsClient.wsMessages().subscribe(
+				{
+					next: (wsMessage) => {
+						if (wsMessage.type === WDXSchema.WDX.Schema.Message.Type.AlarmingGetStatusResponse
+							&& wsMessage.uuid === request.uuid) {
+
+							if (undefined !== wsMessage.error) {
+								msg.payload = wsMessage.error;
+								this.send([null, msg]);
+							} else {
+								msg.payload = wsMessage.body;
+								this.send(msg);
+							}
+
+							subscription.unsubscribe();
+						}
+					},
+					error: (wsError) => {
+						console.error("EDesignRuntimeAlarmGetStatus.input.wsMessages.error", wsError);
+						subscription.unsubscribe();
+						this.send([null, wsError]);
+					}
+				}
+			);
+
+			wsClient.wsSend(request);
+		});
+
+		this.on('close', () => {
+			//console.log("EDesignRuntimeAlarmList.close");
+
+			this.status(NODE_STATUS.CLOSED);
+		});
+	}
+	RED.nodes.registerType("wago.wdx.alarm.get-status", EDesignRuntimeAlarmGetStatus,);
+
+	//wago.wdx.alarm.set-active
+	function EDesignRuntimeAlarmSetActive(config) {
+		RED.nodes.createNode(this, config);
+
+		const wsClient = RED.nodes.getNode(config.client);
+
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
+
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
+
+		this.on('input', (msg, nodeSend, nodeDone) => {
+
+			const alarmCode = msg.alarmCode ?? config['alarmCode'] ?? undefined;
+			if (undefined === alarmCode) {
+				return;
+			}
+
+			const request = new WDXSchema.WDX.Schema.Message.Alarm.SetActiveRequest(
+				alarmCode,
+			);
+
+			const subscription = wsClient.wsMessages().subscribe(
+				{
+					next: (wsMessage) => {
+						if (wsMessage.type === WDXSchema.WDX.Schema.Message.Type.AlarmingSetActiveResponse
+							&& wsMessage.uuid === request.uuid) {
+
+							if (undefined !== wsMessage.error) {
+								msg.payload = wsMessage.error;
+								this.send([null, msg]);
+							} else {
+								msg.payload = wsMessage.body;
+								this.send(msg);
+							}
+
+							subscription.unsubscribe();
+						}
+					},
+					error: (wsError) => {
+						console.error("EDesignRuntimeAlarmSetActive.input.wsMessages.error", wsError);
+						subscription.unsubscribe();
+						this.send([null, wsError]);
+					}
+				}
+			);
+
+			wsClient.wsSend(request);
+		});
+
+		this.on('close', () => {
+			//console.log("EDesignRuntimeAlarmList.close");
+
+			this.status(NODE_STATUS.CLOSED);
+		});
+	}
+	RED.nodes.registerType("wago.wdx.alarm.set-active", EDesignRuntimeAlarmSetActive,);
+
+	//wago.wdx.alarm.set-inactive
+	function EDesignRuntimeAlarmSetInactive(config) {
+		RED.nodes.createNode(this, config);
+
+		const wsClient = RED.nodes.getNode(config.client);
+
+		if (wsClient) {
+			this.status(NODE_STATUS.CONNECTING);
+
+			wsClient.on('opened', (event) => {
+				this.status(Object.assign(NODE_STATUS.OPEN, {
+					event: "connect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('erro', (event) => {
+				this.status(Object.assign(NODE_STATUS.ERROR, {
+					event: "error",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+			wsClient.on('closed', (event) => {
+				this.status(Object.assign(NODE_STATUS.CLOSED, {
+					event: "disconnect",
+					_session: { type: "websocket", id: event.id }
+				}));
+			});
+
+
+		} else {
+			this.status(NODE_STATUS.ERROR);
+		}
+
+		this.on('input', (msg, nodeSend, nodeDone) => {
+
+			const alarmCode = msg.alarmCode ?? config['alarmCode'] ?? undefined;
+			if (undefined === alarmCode) {
+				return;
+			}
+
+			const request = new WDXSchema.WDX.Schema.Message.Alarm.SetInactiveRequest(
+				alarmCode,
+			);
+
+			const subscription = wsClient.wsMessages().subscribe(
+				{
+					next: (wsMessage) => {
+						if (wsMessage.type === WDXSchema.WDX.Schema.Message.Type.AlarmingSetInactiveResponse
+							&& wsMessage.uuid === request.uuid) {
+
+							if (undefined !== wsMessage.error) {
+								msg.payload = wsMessage.error;
+								this.send([null, msg]);
+							} else {
+								msg.payload = wsMessage.body;
+								this.send(msg);
+							}
+
+							subscription.unsubscribe();
+						}
+					},
+					error: (wsError) => {
+						console.error("EDesignRuntimeAlarmSetActive.input.wsMessages.error", wsError);
+						subscription.unsubscribe();
+						this.send([null, wsError]);
+					}
+				}
+			);
+
+			wsClient.wsSend(request);
+		});
+
+		this.on('close', () => {
+			//console.log("EDesignRuntimeAlarmList.close");
+
+			this.status(NODE_STATUS.CLOSED);
+		});
+	}
+	RED.nodes.registerType("wago.wdx.alarm.set-inactive", EDesignRuntimeAlarmSetInactive,);
 }
