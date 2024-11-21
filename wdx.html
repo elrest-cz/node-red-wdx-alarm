@@ -32,6 +32,12 @@
 				type: "wago.wdx.web-socket",
 				required: true
 			},
+			offset: {
+				type: "number",
+			},
+			limit: {
+				type: "number",
+			},
 		},
 		inputs: 1,
 		outputs: 2,
@@ -54,6 +60,12 @@
 			client: {
 				type: "wago.wdx.web-socket",
 				required: true
+			},
+			offset: {
+				type: "number",
+			},
+			limit: {
+				type: "number",
 			},
 		},
 		inputs: 1,
@@ -79,6 +91,12 @@
 				required: true
 			},
 			alarmUuid: {},
+			offset: {
+				type: "number",
+			},
+			limit: {
+				type: "number",
+			},
 		},
 		inputs: 1,
 		outputs: 2,
@@ -242,6 +260,80 @@
 		},
 	});
 
+	RED.nodes.registerType('wago.wdx.alarm.get-status', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "wago.wdx.web-socket",
+				required: true
+			},
+			alarmCode: {
+			}
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Get Status",
+		label: "WDX - Alarm - Get Status",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('wago.wdx.alarm.set-active', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "wago.wdx.web-socket",
+				required: true
+			},
+			alarmCode: {
+			}
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Set Active",
+		label: "WDX - Alarm - Set Active",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
+
+	RED.nodes.registerType('wago.wdx.alarm.set-inactive', {
+		category: 'WDX Alarm',
+		color: '#FFFFFF',
+		defaults: {
+			name: { value: "" },
+			client: {
+				type: "wago.wdx.web-socket",
+				required: true
+			},
+			alarmCode: {
+			}
+		},
+		inputs: 1,
+		outputs: 2,
+		outputLabels: ["Succeded", "Errored",],
+		icon: "WagoLogo.svg",
+		paletteLabel: "Set Inactive",
+		label: "WDX - Alarm - Set Inactive",
+		button: {
+			onclick: function () {
+				startNode(this);
+			},
+		},
+	});
 </script>
 
 <script type="text/html" data-template-name="wago.wdx.alarm.list">
@@ -256,10 +348,20 @@
 		<input type="text" id="node-input-client">
 	</div>
 
+	<div class="form-row">
+		<label for="node-input-offset">Pagination Offset</label>
+		<input type="text" id="node-input-offset" placeholder="Pagination Offset" type="number">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-limit">Pagination Limit</label>
+		<input type="text" id="node-input-limit" placeholder="Pagination Limit" type="number">
+	</div>
+
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.alarm.list">
-	
+
 	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
 
 	<h2>WAGO - WDX - Alarm List</h2>
@@ -281,6 +383,10 @@
 	<h3>Inputs</h3>
 
 	<dl class="message-properties">
+		<dt>offset<span class="property-type">number</span></dt>
+		<dd>WAGO - WDX - Alarm List - Offset</dd>
+		<dt>limit<span class="property-type">number</span></dt>
+		<dd>WAGO - WDX - Alarm List - Limit</dd>
 	</dl>
 
 	<h3>Configuration Options</h3>
@@ -291,6 +397,10 @@
 			<dl class="message-properties">
 				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
 				<dd>WAGO - WDX - Web Socket Client</dd>
+				<dt>offset<span class="property-type">number</span></dt>
+				<dd>WAGO - WDX - Alarm List - Offset</dd>
+				<dt>limit<span class="property-type">number</span></dt>
+				<dd>WAGO - WDX - Alarm List - Limit</dd>
 			</dl>
 		</li>
 	</ul>
@@ -364,10 +474,20 @@
 		<input type="text" id="node-input-client">
 	</div>
 
+	<div class="form-row">
+		<label for="node-input-offset">Pagination Offset</label>
+		<input type="text" id="node-input-offset" placeholder="Pagination Offset" type="number">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-limit">Pagination Limit</label>
+		<input type="text" id="node-input-limit" placeholder="Pagination Limit" type="number">
+	</div>
+	
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.alarm.list-active">
-	
+
 	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
 
 	<h2>WAGO - WDX - Alarm - List Active</h2>
@@ -389,6 +509,10 @@
 	<h3>Inputs</h3>
 
 	<dl class="message-properties">
+		<dt>offset<span class="property-type">number</span></dt>
+		<dd>WAGO - WDX - Alarm List - Offset</dd>
+		<dt>limit<span class="property-type">number</span></dt>
+		<dd>WAGO - WDX - Alarm List - Limit</dd>
 	</dl>
 
 	<h3>Configuration Options</h3>
@@ -399,6 +523,10 @@
 			<dl class="message-properties">
 				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
 				<dd>WAGO - WDX - Web Socket Client</dd>
+				<dt>offset<span class="property-type">number</span></dt>
+				<dd>WAGO - WDX - Alarm List - Offset</dd>
+				<dt>limit<span class="property-type">number</span></dt>
+				<dd>WAGO - WDX - Alarm List - Limit</dd>
 			</dl>
 		</li>
 	</ul>
@@ -479,6 +607,16 @@
 		<input type="text" id="node-input-alarm-uuid" placeholder="Alarm UUID">
 	</div>
 
+	<div class="form-row">
+		<label for="node-input-offset">Pagination Offset</label>
+		<input type="text" id="node-input-offset" placeholder="Pagination Offset" type="number">
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-limit">Pagination Limit</label>
+		<input type="text" id="node-input-limit" placeholder="Pagination Limit" type="number">
+	</div>
+
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.alarm.list-history">
@@ -505,7 +643,11 @@
 
 	<dl class="message-properties">
 		<dt>alarmUuid<span class="property-type">string</span></dt>
-		<dd>WAGO - WDX - Alarm UUID</dd>
+		<dd>WAGO - WDX - Alarm - UUID</dd>
+		<dt>offset<span class="property-type">number</span></dt>
+		<dd>WAGO - WDX - Alarm List - Offset</dd>
+		<dt>limit<span class="property-type">number</span></dt>
+		<dd>WAGO - WDX - Alarm List - Limit</dd>
 	</dl>
 
 	<h3>Configuration Options</h3>
@@ -516,9 +658,12 @@
 			<dl class="message-properties">
 				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
 				<dd>WAGO - WDX - Web Socket Client</dd>
-
 				<dt>alarmUuid<span class="property-type">string</span></dt>
 				<dd>WAGO - WDX - Alarm UUID</dd>
+				<dt>offset<span class="property-type">number</span></dt>
+				<dd>WAGO - WDX - Alarm List - Offset</dd>
+				<dt>limit<span class="property-type">number</span></dt>
+				<dd>WAGO - WDX - Alarm List - Limit</dd>
 			</dl>
 		</li>
 	</ul>
@@ -593,7 +738,6 @@
 		<input type="text" id="node-input-client">
 
 	</div>
-
 
 	<div class="form-row">
 		<label for="node-input-alarm-uuid">Alarm UUID</label>
@@ -718,7 +862,7 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.alarm.confirm-all">
-	
+
 	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
 
 	<h2>WAGO - WDX - Alarm - Confirm All</h2>
@@ -955,7 +1099,7 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.alarm.detail">
-	
+
 	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
 
 	<h2>WAGO - WDX - Alarm - Detail</h2>
@@ -1077,7 +1221,7 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.alarm.delete">
-	
+
 	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
 
 	<h2>WAGO - WDX - Alarm - Delete</h2>
@@ -1199,7 +1343,7 @@
 </script>
 
 <script type="text/html" data-help-name="wago.wdx.alarm.save">
-		
+
 	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
 
 	<h2>WAGO - WDX - Alarm - Save</h2>
@@ -1222,7 +1366,7 @@
 
 	<dl class="message-properties">
 		<dt>alarm<span class="property-type">json</span></dt>
-		<dd>WAGO - WDX - Alarm</dd>
+		<dd>WAGO - WDX - Alarm  <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Alarm.Alarm.md">model</a></dd>
 	</dl>
 
 	<h3>Configuration Options</h3>
@@ -1265,6 +1409,368 @@
 			<h4><b>Example flow code.</b></h4>
 		
 			<pre>[{"id":"563cd348efcd18dd","type":"group","z":"f672de24d745bfec","name":"WDX Example - Alarms - Save","style":{"label":true},"nodes":["1157465cfe179f83","57667e20c524c913","74940f21241a47de","11a83408d811ae3b"],"x":34,"y":619,"w":1012,"h":162},{"id":"1157465cfe179f83","type":"inject","z":"f672de24d745bfec","g":"563cd348efcd18dd","name":"WDX Example - Alarms - Set Request","props":[{"p":"alarm","v":"{\"name\":\"Virtual.virtual-store.test \",\"active\":true,\"number\":0,\"type\":\"error-ack\",\"conditions\":[{\"path\":\"Virtual.virtual-store.test\",\"expression\":\"IS_NOT_EMPTY\",\"value\":null,\"uuid\":\"e02f163a-2903-4cbb-afbb-7201eecfbe5b\"}],\"message\":null,\"messageOff\":null,\"uuid\":\"abfbe647-be8f-4610-a7e2-196438a899ee\"}","vt":"json"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":230,"y":700,"wires":[["11a83408d811ae3b"]]},{"id":"57667e20c524c913","type":"debug","z":"f672de24d745bfec","g":"563cd348efcd18dd","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":940,"y":660,"wires":[]},{"id":"74940f21241a47de","type":"debug","z":"f672de24d745bfec","g":"563cd348efcd18dd","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":930,"y":740,"wires":[]},{"id":"11a83408d811ae3b","type":"wago.wdx.alarm.save","z":"f672de24d745bfec","g":"563cd348efcd18dd","name":"","client":"3949037aa7f8a94a","alarm":"","x":620,"y":700,"wires":[["57667e20c524c913"],["74940f21241a47de"]]},{"id":"3949037aa7f8a94a","type":"wago.wdx.web-socket","url":"ws://localhost:82"}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>400</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-alarm">https://github.com/elrest-cz/node-red-wdx-alarm</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-alarm">https://www.npmjs.com/package/@wago/node-red-wdx-alarm</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.get-status">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-alarm-code">Alarm Code</label>
+		<input type="text" id="node-input-alarm-code" placeholder="Alarm Code">
+	</div>
+
+</script>
+
+<script type="text/html" data-help-name="wago.wdx.alarm.get-status">
+
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
+	<h2>WAGO - WDX - Alarm - Get Status</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Alarm - Get Status<br />
+		<b>Description:</b> Gets Status of WDX - Alarm from the WDX by it's code identificator.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-alarm</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>alarmUuid<span class="property-type">string</span></dt>
+		<dd>WAGO - WDX - Alarm - <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Alarm.Alarm.md#number">Code</a></dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+
+				<dd>WAGO - WDX - Alarm - <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Alarm.Alarm.md#number">Code</a></dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Success:</b> Success output for this node. Output is flow message with payload  <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/enums/WDX.Schema.Model.Alarm.AlarmStatus.md">WDX - Alarm Status</a>.</li>
+
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Alarm - Get Status node flow</b>
+
+			<p>
+				 Will recieve WDX - Alarm - Status from the WDX.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-alarm/wdx-alarm-get-status.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"a0a446f2afc9e9c3","type":"group","z":"f672de24d745bfec","name":"WDX - Examples - Alarms - Get Status","style":{"label":true},"nodes":["57c15b0f180fe008","a742e07cb3d364a8","84ee951543e7711e","478d827457a6b66c"],"x":54,"y":3039,"w":1012,"h":162},{"id":"57c15b0f180fe008","type":"inject","z":"f672de24d745bfec","g":"a0a446f2afc9e9c3","name":"WDX Example - Alarms - Get Status Request","props":[{"p":"alarmCode","v":"3335","vt":"str"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":270,"y":3120,"wires":[["478d827457a6b66c"]]},{"id":"a742e07cb3d364a8","type":"debug","z":"f672de24d745bfec","g":"a0a446f2afc9e9c3","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":960,"y":3080,"wires":[]},{"id":"84ee951543e7711e","type":"debug","z":"f672de24d745bfec","g":"a0a446f2afc9e9c3","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":950,"y":3160,"wires":[]},{"id":"478d827457a6b66c","type":"wago.wdx.alarm.get-status","z":"f672de24d745bfec","g":"a0a446f2afc9e9c3","name":"","client":"49a6d8fdfa5e43bc","x":610,"y":3120,"wires":[["a742e07cb3d364a8"],["84ee951543e7711e"]]},{"id":"49a6d8fdfa5e43bc","type":"wago.wdx.web-socket","url":"ws://localhost:82","reconnectTimeout":1000}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>400</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-alarm">https://github.com/elrest-cz/node-red-wdx-alarm</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-alarm">https://www.npmjs.com/package/@wago/node-red-wdx-alarm</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.set-active">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-alarm-code">Alarm Code</label>
+		<input type="text" id="node-input-alarm-code" placeholder="Alarm Code">
+	</div>
+
+</script>
+
+<script type="text/html" data-help-name="wago.wdx.alarm.set-active">
+
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
+	<h2>WAGO - WDX - Alarm - Set Active</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Alarm - Get Status<br />
+		<b>Description:</b> Activate WDX - Alarm in the WDX by it's code identificator.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-alarm</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>alarmCode<span class="property-type">number</span></dt>
+		<dd>WAGO - WDX - Alarm - <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Alarm.Alarm.md#number">Code</a></dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+
+				<dt>alarmCode<span class="property-type">number</span></dt>
+				<dd>WAGO - WDX - Alarm - <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Alarm.Alarm.md#number">Code</a></dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Success:</b> Success output for this node. Output is flow message with payload  <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/enums/WDX.Schema.Model.Alarm.AlarmStatus.md">WDX - Alarm Status</a>.</li>
+
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Alarm - Set Active node flow</b>
+
+			<p>
+				 Activate WDX - Alarm in the WDX.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-alarm/wdx-alarm-set-active.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"86d9ce481b707a0a","type":"group","z":"f672de24d745bfec","name":"WDX - Examples - Alarms - Set Active","style":{"label":true},"nodes":["36f17b62dff7e49a","9c071b8c8d63556e","0d41db78c8bb2ad2","0de117c6fc51be54"],"x":54,"y":3339,"w":1012,"h":162},{"id":"36f17b62dff7e49a","type":"inject","z":"f672de24d745bfec","g":"86d9ce481b707a0a","name":"WDX - Examples - Alarms - Set Active Request","props":[{"p":"alarmCode","v":"3335","vt":"num"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":280,"y":3420,"wires":[["0de117c6fc51be54"]]},{"id":"9c071b8c8d63556e","type":"debug","z":"f672de24d745bfec","g":"86d9ce481b707a0a","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":960,"y":3380,"wires":[]},{"id":"0d41db78c8bb2ad2","type":"debug","z":"f672de24d745bfec","g":"86d9ce481b707a0a","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":950,"y":3460,"wires":[]},{"id":"0de117c6fc51be54","type":"wago.wdx.alarm.set-active","z":"f672de24d745bfec","g":"86d9ce481b707a0a","name":"","client":"49a6d8fdfa5e43bc","x":630,"y":3420,"wires":[["9c071b8c8d63556e"],["0d41db78c8bb2ad2"]]},{"id":"49a6d8fdfa5e43bc","type":"wago.wdx.web-socket","url":"ws://localhost:82","reconnectTimeout":1000}]</pre>
+		
+		</li>
+	</ul>
+
+	<h3>Error Handling</h3>
+
+	<dl class="message-properties">
+		<dt>400</dt>
+		<dd>Wrong request</dd>
+		<dt>401</dt>
+		<dd>Unauthorized</dd>
+		<dt>404</dt>
+		<dd>Not Found</dd>
+		<dt>500</dt>
+		<dd>Unexpected server error</dd>
+	</dl>
+
+	<h3>Additional Resources</h3>
+
+	<ul>
+		<li><b>Github:</b> <a href="https://github.com/elrest-cz/node-red-wdx-alarm">https://github.com/elrest-cz/node-red-wdx-alarm</a></li>
+		<li><b>NPMJS:</b> <a href="https://www.npmjs.com/package/@wago/node-red-wdx-alarm">https://www.npmjs.com/package/@wago/node-red-wdx-alarm</a></li>
+		<li><b>Support:</b> info@elrest.cz</li>
+	</ul>
+
+	<h3>Licence</h3>
+
+	<ul>
+		<li><b>Licence:</b> MIT</li>
+		<li><b>Copyright</b> (c) 2024 Elrest Automations Systeme GMBH</li>
+	</ul>
+
+</script>
+
+<script type="text/html" data-template-name="wago.wdx.alarm.set-inactive">
+
+	<div class="form-row">
+
+		<label for="node-input-client">
+			<i class="fa fa-bookmark"></i>
+			<span>Web Socket Client</span>
+		</label>
+		
+		<input type="text" id="node-input-client">
+
+	</div>
+
+	<div class="form-row">
+		<label for="node-input-alarm-code">Alarm Code</label>
+		<input type="text" id="node-input-alarm-code" placeholder="Alarm Code">
+	</div>
+
+</script>
+
+<script type="text/html" data-help-name="wago.wdx.alarm.set-inactive">
+
+	<img src="icons/@wago/node-red-wdx-data/WagoLogo.svg" />
+
+	<h2>WAGO - WDX - Alarm - Set Inactive</h2>
+
+	<h3>Overview</h3>
+
+	<p>
+		<b>Node Name:</b> WDX - Alarm - Set Inactive<br />
+		<b>Description:</b> Inactivate WDX - Alarm in the WDX by it's code identificator.
+	</p>
+
+	<h3>Installation</h3>
+
+	<p>
+	<pre>npm install @wago/node-red-wdx-alarm</pre>
+	</p>
+
+
+	<h3>Inputs</h3>
+
+	<dl class="message-properties">
+		<dt>alarmCode<span class="property-type">number</span></dt>
+		<dd>WAGO - WDX - Alarm - <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Alarm.Alarm.md#number">Code</a></dd>
+	</dl>
+
+	<h3>Configuration Options</h3>
+
+	<ul>
+		<li>
+			<b>Properties:</b>		
+			<dl class="message-properties">
+				<dt>client<span class="property-type">wago.wdx.web-socket</span></dt>
+				<dd>WAGO - WDX - Web Socket Client</dd>
+
+				<dt>alarmCode<span class="property-type">number</span></dt>
+				<dd>WAGO - WDX - Alarm - <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Model.Alarm.Alarm.md#number">Code</a></dd>
+			</dl>
+		</li>
+	</ul>
+
+	<h3>Outputs</h3>
+
+	<ul>
+		<li><b>Success:</b> Success output for this node. Output is flow message with payload  <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/enums/WDX.Schema.Model.Alarm.AlarmStatus.md">WDX - Alarm Status</a>.</li>
+
+		<li><b>Error:</b> Error response for this node. Output is flow message with payload of <a href="https://github.com/elrest-cz/wdx-schema/blob/master/docs/classes/WDX.Schema.Message.MessageError.md">WDX - Schema -  Message - Error Message</a>.</li>
+	</ul>
+
+	<h3>Usage Examples</h3>
+
+	<ul>
+		<li>
+			<b>Example WDX - Alarm - Set Inactive node flow</b>
+
+			<p>
+				 Will inactivate WDX - Alarm.
+			</p>
+		
+			<h4><b>Example Figure.</b></h4>
+		
+			<img src="icons/@wago/node-red-wdx-alarm/wdx-alarm-set-inactive.png" />
+		
+			<h4><b>Example flow code.</b></h4>
+		
+			<pre>[{"id":"dd1abf552367aa2b","type":"group","z":"f672de24d745bfec","name":"WDX - Examples - Alarms - Set Inactive","style":{"label":true},"nodes":["afefa86d6f7c3d4d","f9dafc3d5b5efcd6","c716c6ffab4b9eea","e860d2092823df2f"],"x":54,"y":3659,"w":1012,"h":162},{"id":"afefa86d6f7c3d4d","type":"inject","z":"f672de24d745bfec","g":"dd1abf552367aa2b","name":"WDX - Examples - Alarms - Set Inactive Request","props":[{"p":"alarmCode","v":"3335","vt":"num"}],"repeat":"","crontab":"","once":false,"onceDelay":0.1,"topic":"","x":280,"y":3740,"wires":[["e860d2092823df2f"]]},{"id":"f9dafc3d5b5efcd6","type":"debug","z":"f672de24d745bfec","g":"dd1abf552367aa2b","name":"Sucess","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":960,"y":3700,"wires":[]},{"id":"c716c6ffab4b9eea","type":"debug","z":"f672de24d745bfec","g":"dd1abf552367aa2b","name":"Error","active":true,"tosidebar":true,"console":false,"tostatus":false,"complete":"payload","targetType":"msg","statusVal":"","statusType":"auto","x":950,"y":3780,"wires":[]},{"id":"e860d2092823df2f","type":"wago.wdx.alarm.set-inactive","z":"f672de24d745bfec","g":"dd1abf552367aa2b","name":"","client":"49a6d8fdfa5e43bc","x":660,"y":3740,"wires":[["f9dafc3d5b5efcd6"],["c716c6ffab4b9eea"]]},{"id":"49a6d8fdfa5e43bc","type":"wago.wdx.web-socket","url":"ws://localhost:82","reconnectTimeout":1000}]</pre>
 		
 		</li>
 	</ul>
